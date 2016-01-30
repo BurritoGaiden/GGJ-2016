@@ -27,6 +27,7 @@ public class GameLoopBehavior : MonoBehaviour {
 	public GameStates CurrentState;
 
 	// Prefabs
+	public GameObject PillarPrefab;
 	public GameObject TribeMemberPrefab;
 	public GameObject ExplorerPrefab;
 
@@ -72,6 +73,7 @@ public class GameLoopBehavior : MonoBehaviour {
 		float angle = 30.0f;
 		float angleIncrease = 30.0f; // 30 deg, 1/6pi rad
 		float circleRadius = 8.0f;
+		float pillarRadius = 13.0f;
 		float x = 0.0f;
 		float z = 0.0f;
 		for (int i = 0; i < 5; ++i) {
@@ -85,6 +87,13 @@ public class GameLoopBehavior : MonoBehaviour {
 			GameObject tribeMember = Instantiate(TribeMemberPrefab);
 			tribeMember.transform.SetPositionX(-x);
 			tribeMember.transform.SetPositionZ(-z);
+
+			x = Mathf.Cos(angle * Mathf.Deg2Rad) * pillarRadius;
+			z = Mathf.Sin(angle * Mathf.Deg2Rad) * pillarRadius;
+
+			GameObject pillar = Instantiate(PillarPrefab);
+			pillar.transform.SetPositionX(x);
+			pillar.transform.SetPositionZ(z);
 
 			angle += angleIncrease;
 		}
@@ -101,6 +110,7 @@ public class GameLoopBehavior : MonoBehaviour {
 		// TODO: Choose a dance
 
 		// Create dance input based off correct pillar
+		inputQueue.Clear();
 		inputRequired.Clear();
 		inputRequired.Add(InputDir.Left);
 		inputRequired.Add(InputDir.Left);
