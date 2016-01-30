@@ -9,8 +9,15 @@ public class Dance {
 public class PillarBehavior : MonoBehaviour {
 
 	public Dance Dance;
+
+	// The input strings
 	[SerializeField]
-	public List<Vector2> inputRequired = new List<Vector2>();
+	public List<Vector2> tribalInputString = new List<Vector2>();
+	[SerializeField]
+	public List<Vector2> explorerInputString = new List<Vector2>();
+
+	// If false, tribal on top, if true, explorer on top
+	private bool swapped = false;
 
 	// The inputs that have been claimed by other pillars, too prevent from duplicates
 	private static List<List<Vector2>> inputsClaimed = new List<List<Vector2>>();
@@ -34,6 +41,15 @@ public class PillarBehavior : MonoBehaviour {
 	}
 
 	public void Create() {
+		tribalInputString = CreateRandomInputString();
+		explorerInputString = CreateRandomInputString();
+
+		swapped = (Random.Range(0, 2) > 0);
+	}
+
+	private List<Vector2> CreateRandomInputString() {
+		var inputRequired = new List<Vector2>();
+
 		while (true) {
 			// Create a random pattern
 			inputRequired.Clear();
@@ -43,10 +59,10 @@ public class PillarBehavior : MonoBehaviour {
 
 			// Check for matches
 			bool noMatch = true;
-			for (int i = 0; i < inputsClaimed.Count; ++i) {
+			for (int n = 0; n < inputsClaimed.Count; ++n) {
 				bool matches = true;
-				for (int j = 0; j < inputsClaimed[i].Count; ++j) {
-					if (inputRequired[i] != inputsClaimed[i][j]) {
+				for (int index = 0; index < inputsClaimed[n].Count; ++index) {
+					if (inputRequired[index] != inputsClaimed[n][index]) {
 						matches = false;
 					}
 				}
@@ -63,17 +79,19 @@ public class PillarBehavior : MonoBehaviour {
 				break;
 			}
 		}
+
+		return inputRequired;
 	}
 
 	public bool CheckInput(List<Vector2> inputQueue) {
 		// If the input count doesn't match up, it definitely isn't correct
-		if (inputQueue.Count != inputRequired.Count)
+		if (inputQueue.Count != explorerInputString.Count)
 			return false;
 
 		// Check input one at a time to see if they match
 		bool success = true;
-		for (int i = 0; i < inputRequired.Count; ++i) {
-			if (inputQueue[i] != inputRequired[i]) {
+		for (int i = 0; i < explorerInputString.Count; ++i) {
+			if (inputQueue[i] != explorerInputString[i]) {
 				success = false;
 			}
 		}
@@ -84,11 +102,11 @@ public class PillarBehavior : MonoBehaviour {
 #if UNITY_EDITOR
 	public string GetInputString() {
 		string inputStr = "";
-		for (int i = 0; i < inputRequired.Count; ++i) {
-			if (inputRequired[i] == InputDir.Left)	inputStr += "Left, ";
-			if (inputRequired[i] == InputDir.Right)	inputStr += "Right, ";
-			if (inputRequired[i] == InputDir.Up)	inputStr += "Up, ";
-			if (inputRequired[i] == InputDir.Down)	inputStr += "Down, ";
+		for (int i = 0; i < explorerInputString.Count; ++i) {
+			if (explorerInputString[i] == InputDir.Left) inputStr += "Left, ";
+			if (explorerInputString[i] == InputDir.Right) inputStr += "Right, ";
+			if (explorerInputString[i] == InputDir.Up) inputStr += "Up, ";
+			if (explorerInputString[i] == InputDir.Down) inputStr += "Down, ";
 		}
 		return inputStr;
 	}
