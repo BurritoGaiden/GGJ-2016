@@ -68,7 +68,7 @@ public class PillarBehavior : MonoBehaviour {
 		icongo.transform.position = gameObject.transform.position + new Vector3(0.0f, (top) ? 0.75f : -0.25f, -0.5f);
 	}
 
-	// TODO: implement
+	// TODO(anyone): implement
 	private void PlaceArrows(List<Vector2> inputString, bool top) {
 		
 	}
@@ -110,19 +110,24 @@ public class PillarBehavior : MonoBehaviour {
 	}
 
 	public bool CheckInput(List<Vector2> inputQueue) {
-		// If the input count doesn't match up, it definitely isn't correct
-		if (inputQueue.Count != Explorer.InputString.Count)
-			return false;
-
 		// Check input one at a time to see if they match
+		int n = 0;
 		bool success = true;
-		for (int i = 0; i < Explorer.InputString.Count; ++i) {
+		for (int i = 0; i < Explorer.InputString.Count && i < inputQueue.Count; ++i, ++n) {
 			if (inputQueue[i] != Explorer.InputString[i]) {
 				success = false;
+				break;
 			}
 		}
 
+		HighlightArrows(n);
+
 		return success;
+	}
+
+	// TODO(anyone): implement
+	private void HighlightArrows(int n) {
+		
 	}
 
 #if UNITY_EDITOR

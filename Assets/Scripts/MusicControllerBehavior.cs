@@ -45,10 +45,13 @@ public class MusicControllerBehavior : MonoBehaviour {
 	public void PlayTracks() {
 		float delay = 0.0f;
 		for (int i = 0; i < AudioSource.Length; ++i) {
-			if (i < 2) // TODO: Remove this!!!
+			if (i < 2) { // TODO(anyone): Remove this on full game loop is implemented!!!
 				AudioSource[i].PlayDelayed(delay);
-			delay += AudioSource[i].clip.length;
+				delay += AudioSource[i].clip.length;
+			}
 		}
+
+		Invoke("PlayTracks", delay);
 	}
 
 }

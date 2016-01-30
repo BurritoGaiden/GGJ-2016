@@ -5,7 +5,7 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Dance {
 	public GameObject Icon;
-	// TODO: Animation that should play
+	// TODO(bret): Animation that should play
 }
 
 public class DanceManagerBehavior : MonoBehaviour {
