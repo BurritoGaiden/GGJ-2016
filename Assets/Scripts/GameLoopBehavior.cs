@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+// TODO: Before shipping, Window -> Lighting -> Lightmap Tab -> Enable Continuous Baking
 public class GameLoopBehavior : MonoBehaviour {
 
 	// carroters
@@ -34,9 +35,12 @@ public class GameLoopBehavior : MonoBehaviour {
 	private float inputTimer = 0.0f;
 	private float inputTimeout = 7.0f;
 	private int inputLength = 4;
-	private List<PillarBehavior> pillars = new List<PillarBehavior>();
 	[SerializeField]
 	private PillarBehavior pillarChosen = null;
+
+	// Lists of GameObjects
+	private List<PillarBehavior> pillars = new List<PillarBehavior>();
+	private List<GameObject> explorers = new List<GameObject>();
 
 	// Song information
 	private int level = 0;
@@ -68,7 +72,7 @@ public class GameLoopBehavior : MonoBehaviour {
 
 	// This changes the state! Wow!
 	private void ChangeState(GameStates state) {
-		Debug.Log(state.ToString() + " started");
+		// Debug.Log(state.ToString() + " started");
 
 		CurrentState = state;
 		switch (CurrentState) {
@@ -95,6 +99,7 @@ public class GameLoopBehavior : MonoBehaviour {
 			GameObject explorer = Instantiate(ExplorerPrefab);
 			explorer.transform.SetPositionX(x);
 			explorer.transform.SetPositionZ(z);
+			explorers.Add(explorer);
 
 			GameObject tribeMember = Instantiate(TribeMemberPrefab);
 			tribeMember.transform.SetPositionX(-x);
@@ -122,6 +127,7 @@ public class GameLoopBehavior : MonoBehaviour {
 		pillars.Clear();
 
 		// Create the pillars
+		DanceManagerBehavior.Reset();
 		PillarBehavior.Reset();
 		float angle = 30.0f;
 		float angleIncrease = 30.0f; // 30 deg, 1/6pi rad
@@ -188,19 +194,22 @@ public class GameLoopBehavior : MonoBehaviour {
 
 		// If the input was correct
 		if (pillarChosen.CheckInput(inputQueue)) {
-			yield return AddToScore();
+			yield return StartCoroutine(AddToScore());
 		} else {
-			yield return KillExplorer(); // :(
+			yield return StartCoroutine(KillExplorer()); // :(
 		}
 
-		// if (players.count > 0)
-		ChangeState(GameStates.STARTROUND);
-		// else
-		// ChangeState(GameStates.GAMEOVER);
+		// If there's still explorers, start round or end game
+		if (explorers.Count > 0)
+			ChangeState(GameStates.STARTROUND);
+		else
+			ChangeState(GameStates.GAMEOVER);
 	}
 
 	private IEnumerator GameOver() {
 		yield return 0;
+
+		Debug.Log("GAME FREAKIN' OVER");
 	}
 
 	// TODO(anyone): implement
@@ -210,6 +219,11 @@ public class GameLoopBehavior : MonoBehaviour {
 
 	// TODO(anyone): implement
 	private IEnumerator KillExplorer() {
+		// Temp code
+		var explorer = explorers[explorers.Count - 1];
+		Destroy(explorer);
+		explorers.Remove(explorer);
+
 		yield return 0;
 	}
 

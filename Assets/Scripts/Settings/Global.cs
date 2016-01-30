@@ -31,6 +31,7 @@ public enum ListenerType {
 
 public struct Scenes {
 	public const string GAMELOOPSCENE = "GameLoopScene";
+	public const string MAINMENUSCENE = "MainMenuScene";
 }
 
 public struct Tags {
@@ -40,7 +41,7 @@ public struct Tags {
 	public const string MAINCAMERA = "MainCamera";
 	public const string PLAYER = "Player";
 	public const string GAMECONTROLLER = "GameController";
-	public const string MUSICCONTROLLER = "Music Controller";
+	public const string DANCEMANAGER = "DanceManager";
 }
 
 public struct Layers {
