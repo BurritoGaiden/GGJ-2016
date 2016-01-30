@@ -1,14 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// TODO: Temp using, remove these
+using System.Collections.Generic;
+
 // A place to store nasty, temporary global variables
 public static class Temp {
-
+	public static List<GameObject> cubes = new List<GameObject>();
 }
 
 public static class Global {
 
 	
+
+}
+
+public static class InputDir {
+
+	public static readonly Vector2 Left = -1.0f * Vector2.right;
+	public static readonly Vector2 Right = Vector2.right;
+	public static readonly Vector2 Up = Vector2.up;
+	public static readonly Vector2 Down = -1.0f * Vector2.up;
 
 }
 
