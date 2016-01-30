@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 
-// TODO: class Pillar
-
 public class GameLoopBehavior : MonoBehaviour {
 
 	// carroters
@@ -33,7 +31,12 @@ public class GameLoopBehavior : MonoBehaviour {
 
 	// Input handling
 	private List<Vector2> inputQueue = new List<Vector2>();
-	private List<Vector2> inputRequired = new List<Vector2>();
+	private float inputTimer = 0.0f;
+	private float inputTimeout = 7.0f;
+	private int inputLength = 4;
+	private List<PillarBehavior> pillars = new List<PillarBehavior>();
+	[SerializeField]
+	private PillarBehavior pillarChosen = null;
 
 	// Song information
 	private int level = 0;
@@ -53,6 +56,16 @@ public class GameLoopBehavior : MonoBehaviour {
 		//
 	}
 
+#if UNITY_EDITOR
+	private UnityEngine.Rect rect = new UnityEngine.Rect(10.0f, 100.0f, 300.0f, 50.0f);
+	void OnGUI() {
+		// Show the input string if C is held
+		if ((pillarChosen != null) && (Input.GetKey(KeyCode.C))) {
+			GUI.Label(rect, pillarChosen.GetInputString() + " " + inputTimer.ToString());
+		}
+	}
+#endif
+
 	// This changes the state! Wow!
 	private void ChangeState(GameStates state) {
 		Debug.Log(state.ToString() + " started");
@@ -69,11 +82,10 @@ public class GameLoopBehavior : MonoBehaviour {
 	}
 
 	private IEnumerator Setup() {
-		// Instantiate dancers
+		// Instantiate dancers and pillars
 		float angle = 30.0f;
 		float angleIncrease = 30.0f; // 30 deg, 1/6pi rad
 		float circleRadius = 8.0f;
-		float pillarRadius = 13.0f;
 		float x = 0.0f;
 		float z = 0.0f;
 		for (int i = 0; i < 5; ++i) {
@@ -88,12 +100,8 @@ public class GameLoopBehavior : MonoBehaviour {
 			tribeMember.transform.SetPositionX(-x);
 			tribeMember.transform.SetPositionZ(-z);
 
-			x = Mathf.Cos(angle * Mathf.Deg2Rad) * pillarRadius;
-			z = Mathf.Sin(angle * Mathf.Deg2Rad) * pillarRadius;
-
-			GameObject pillar = Instantiate(PillarPrefab);
-			pillar.transform.SetPositionX(x);
-			pillar.transform.SetPositionZ(z);
+			x = Mathf.Cos(angle * Mathf.Deg2Rad) * 10.0f;
+			z = Mathf.Sin(angle * Mathf.Deg2Rad) * 13.0f;
 
 			angle += angleIncrease;
 		}
@@ -105,17 +113,39 @@ public class GameLoopBehavior : MonoBehaviour {
 	private IEnumerator StartRound() {
 		yield return 0;
 
-		// TODO: Create the pillars
+		// NOTE(bret): Perhaps this should only happen every X rounds?
 
-		// TODO: Choose a dance
+		// Destroy last set of pillars
+		for (int i = 0; i < pillars.Count; ++i) {
+			Destroy(pillars[i].gameObject);
+		}
+		pillars.Clear();
+
+		// Create the pillars
+		PillarBehavior.Reset();
+		float angle = 30.0f;
+		float angleIncrease = 30.0f; // 30 deg, 1/6pi rad
+		float x = 0.0f;
+		float z = 0.0f;
+		for (int i = 0; i < 5; ++i) {
+			x = Mathf.Cos(angle * Mathf.Deg2Rad) * 10.0f;
+			z = Mathf.Sin(angle * Mathf.Deg2Rad) * 13.0f;
+
+			GameObject pillar = Instantiate(PillarPrefab);
+			pillar.transform.SetPositionX(x);
+			pillar.transform.SetPositionZ(z);
+			var pillarBehavior = pillar.GetComponent<PillarBehavior>();
+			pillarBehavior.Create();
+			pillars.Add(pillarBehavior);
+
+			angle += angleIncrease;
+		}
+
+		// Choose a dance
+		pillarChosen = pillars[Random.Range(0, pillars.Count)];
 
 		// Create dance input based off correct pillar
 		inputQueue.Clear();
-		inputRequired.Clear();
-		inputRequired.Add(InputDir.Left);
-		inputRequired.Add(InputDir.Left);
-		inputRequired.Add(InputDir.Left);
-		inputRequired.Add(InputDir.Right);
 
 		ChangeState(GameStates.TRIBEDANCE);
 	}
@@ -133,12 +163,22 @@ public class GameLoopBehavior : MonoBehaviour {
 	private IEnumerator PlayerDance() {
 		yield return 0;
 
+		// Reset the timer
+		inputTimer = inputTimeout;
+
 		while (true) {
+			// Process input
 			AddInputToQueue();
-			if (CheckInput()) {
+
+			// Count down time
+			inputTimer -= Time.deltaTime;
+
+			// Check to see if time is up, the correct input has been given, or if the input is the full length
+			if ((inputTimer <= 0.0f) || (pillarChosen.CheckInput(inputQueue)) || (inputQueue.Count >= inputLength)) {
 				ChangeState(GameStates.ENDROUND);
 				break;
 			}
+
 			yield return 0;
 		}
 	}
@@ -147,7 +187,7 @@ public class GameLoopBehavior : MonoBehaviour {
 		yield return 0;
 
 		// If the input was correct
-		if (CheckInput()) {
+		if (pillarChosen.CheckInput(inputQueue)) {
 			yield return AddToScore();
 		} else {
 			yield return KillExplorer(); // :(
@@ -163,40 +203,22 @@ public class GameLoopBehavior : MonoBehaviour {
 		yield return 0;
 	}
 
-	// TODO: implement
+	// TODO(anyone): implement
 	private IEnumerator AddToScore() {
 		yield return 0;
 	}
 
-	// TODO: implement
+	// TODO(anyone): implement
 	private IEnumerator KillExplorer() {
 		yield return 0;
 	}
 
 	private void AddInputToQueue() {
+		// Get the proper key
 		if (Input.GetKeyDown(KeyCode.LeftArrow)) inputQueue.Add(InputDir.Left);
 		if (Input.GetKeyDown(KeyCode.RightArrow)) inputQueue.Add(InputDir.Right);
 		if (Input.GetKeyDown(KeyCode.UpArrow)) inputQueue.Add(InputDir.Up);
 		if (Input.GetKeyDown(KeyCode.DownArrow)) inputQueue.Add(InputDir.Down);
-
-		for (int i = 0; i < Temp.cubes.Count; ++i) {
-			Temp.cubes[i].transform.SetPositionZRelative(1.0f);
-		}
-	}
-
-	private bool CheckInput() {
-		if (inputQueue.Count != inputRequired.Count)
-			return false;
-
-		bool success = true;
-		for (int i = 0; i < inputRequired.Count; ++i) {
-			if (inputQueue[i] != inputRequired[i]) {
-				success = false;
-				Debug.Log("WRGON!");
-			}
-		}
-
-		return success;
 	}
 
 }

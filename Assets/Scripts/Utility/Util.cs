@@ -2,34 +2,6 @@
 using System.Collections;
 
 public class Util {
-	
-	#region Pixel constants for quick reference
-#if UNITY_EDITOR
-	public const float _2PIXELS = 0.125f;
-	public const float _3PIXELS = 0.1875f;
-	public const float _4PIXELS = 0.25f;
-	public const float _5PIXELS = 0.3125f;
-	public const float _6PIXELS = 0.375f;
-	public const float _7PIXELS = 0.4375f;
-	public const float _8PIXELS = 0.5f;
-	public const float _9PIXELS = 0.5625f;
-	public const float _10PIXELS = 0.625f;
-	public const float _11PIXELS = 0.6875f;
-	public const float _12PIXELS = 0.75f;
-	public const float _13PIXELS = 0.8125f;
-	public const float _14PIXELS = 0.875f;
-	public const float _15PIXELS = 0.9375f;
-#endif
-	#endregion
-
-	public const float PIXEL = 0.0625f;
-	public static float Pixels(int n) {
-		return PIXEL * (float)n;
-	}
-
-	public static float NearestPixel(float value) {
-		return Pixels(Mathf.RoundToInt(value * 16.0f));
-	}
 
 	public const float FRAME = 1.0f / 60.0f;
 	public static float Frames(int n) {
@@ -76,6 +48,21 @@ public class Util {
 
 	public static int Sign(int value) {
 		return (value < 0) ? -1 : (value > 0 ? 1 : 0);
+	}
+
+	public static Vector2 GetRandomInputDir() {
+		return GetInputDirByIndex(Random.Range(0, 4));
+	}
+
+	public static Vector2 GetInputDirByIndex(int n) {
+		switch (n) {
+			case 0: return InputDir.Left;
+			case 1: return InputDir.Right;
+			case 2: return InputDir.Up;
+			case 3: return InputDir.Down;
+		}
+
+		return Vector2.zero;
 	}
 
 

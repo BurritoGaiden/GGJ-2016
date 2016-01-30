@@ -5,7 +5,6 @@ public class Messenger {
 
 	Hashtable Listeners = new Hashtable();
 
-	// TODO: Implement this
 	//private Hashtable MessageTypeCount = new Hashtable();
 
 	private static Messenger instance;
@@ -16,7 +15,6 @@ public class Messenger {
 			return instance;
 		}
 	}
-	// TODO: What the hell is Use?
 	static Messenger Use;
 
 	public void Listen(ListenerType listenerType, GameObject gameObject) {

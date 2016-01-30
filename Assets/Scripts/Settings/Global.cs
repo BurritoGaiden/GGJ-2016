@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// TODO: Temp using, remove these
+// TODO(anyone): Temp using, remove these
 using System.Collections.Generic;
 
 // A place to store nasty, temporary global variables
 public static class Temp {
-	public static List<GameObject> cubes = new List<GameObject>();
+	
 }
 
 public static class Global {
@@ -30,7 +30,7 @@ public enum ListenerType {
 }
 
 public struct Scenes {
-	
+	public const string GAMELOOPSCENE = "GameLoopScene";
 }
 
 public struct Tags {
