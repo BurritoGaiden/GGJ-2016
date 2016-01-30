@@ -41,6 +41,7 @@ public struct Tags {
 	public const string MAINCAMERA = "MainCamera";
 	public const string PLAYER = "Player";
 	public const string GAMECONTROLLER = "GameController";
+	public const string MUSICCONTROLLER = "MusicController";
 	public const string DANCEMANAGER = "DanceManager";
 }
 

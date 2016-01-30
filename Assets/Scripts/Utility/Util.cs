@@ -8,12 +8,6 @@ public class Util {
 		return FRAME * (float)n;
 	}
 
-	public static IEnumerator WaitForSeconds(float seconds) {
-		for (float t = 0.0f; t < seconds; t += Time.deltaTime) {
-			yield return 0;
-		}
-	}
-
 	public static float Wrap(float value, float min, float max) {
 		if (value < min) return max;
 		if (value > max) return min;

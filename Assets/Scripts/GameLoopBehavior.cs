@@ -33,7 +33,6 @@ public class GameLoopBehavior : MonoBehaviour {
 	// Input handling
 	private List<Vector2> inputQueue = new List<Vector2>();
 	private float inputTimer = 0.0f;
-	private float inputTimeout = 7.0f;
 	private int inputLength = 4;
 	[SerializeField]
 	private PillarBehavior pillarChosen = null;
@@ -153,24 +152,21 @@ public class GameLoopBehavior : MonoBehaviour {
 		// Create dance input based off correct pillar
 		inputQueue.Clear();
 
+		// Play Music
+		Music.PlayTracks();
+
 		ChangeState(GameStates.TRIBEDANCE);
 	}
 
 	private IEnumerator TribeDance() {
-		yield return 0;
+		yield return new WaitForSeconds(Music.GetTrackLength(MusicFiles.TRIBAL));
 
 		ChangeState(GameStates.PLAYERDANCE);
-
-		/*while (true) {
-			yield return 0;
-		}*/
 	}
 
 	private IEnumerator PlayerDance() {
-		yield return 0;
-
 		// Reset the timer
-		inputTimer = inputTimeout;
+		inputTimer = Music.GetTrackLength(MusicFiles.EXPLORER);
 
 		while (true) {
 			// Process input
@@ -214,6 +210,8 @@ public class GameLoopBehavior : MonoBehaviour {
 
 	// TODO(anyone): implement
 	private IEnumerator AddToScore() {
+		//yield return new WaitForSeconds(Music.GetTrackLength(MusicFiles.WIN));
+
 		yield return 0;
 	}
 
@@ -223,6 +221,8 @@ public class GameLoopBehavior : MonoBehaviour {
 		var explorer = explorers[explorers.Count - 1];
 		Destroy(explorer);
 		explorers.Remove(explorer);
+
+		//yield return new WaitForSeconds(Music.GetTrackLength(MusicFiles.LOSE));
 
 		yield return 0;
 	}
