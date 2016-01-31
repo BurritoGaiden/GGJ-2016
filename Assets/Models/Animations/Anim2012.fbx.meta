@@ -1,0 +1,1220 @@
+fileFormatVersion: 2
+guid: f23f0b7823ca59f4ea4f855514fd9e23
+timeCreated: 1454271828
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Butt
+    100004: Chest
+    100006: Chest 1
+    100008: Elbow_Left
+    100010: Elbow_Right
+    100012: Eye_Left
+    100014: Eye_Right
+    100016: Foot_Left
+    100018: Foot_Left 1
+    100020: Foot_Right
+    100022: Foot_Right 1
+    100024: group1
+    100026: Hand_Left
+    100028: Hand_Left 1
+    100030: Hand_Right
+    100032: Hand_Right 1
+    100034: Head
+    100036: Head 1
+    100038: Hip_Left
+    100040: Hip_Right
+    100042: ikHandle1
+    100044: ikHandle2
+    100046: Knee_Left
+    100048: Knee_Right
+    100050: Node
+    100052: Tail
+    100054: Tip_Left
+    100056: Tip_Right
+    100058: Top
+    100060: Top 1
+    400000: //RootNode
+    400002: Butt
+    400004: Chest
+    400006: Chest 1
+    400008: Elbow_Left
+    400010: Elbow_Right
+    400012: Eye_Left
+    400014: Eye_Right
+    400016: Foot_Left
+    400018: Foot_Left 1
+    400020: Foot_Right
+    400022: Foot_Right 1
+    400024: group1
+    400026: Hand_Left
+    400028: Hand_Left 1
+    400030: Hand_Right
+    400032: Hand_Right 1
+    400034: Head
+    400036: Head 1
+    400038: Hip_Left
+    400040: Hip_Right
+    400042: ikHandle1
+    400044: ikHandle2
+    400046: Knee_Left
+    400048: Knee_Right
+    400050: Node
+    400052: Tail
+    400054: Tip_Left
+    400056: Tip_Right
+    400058: Top
+    400060: Top 1
+    4300000: Foot_Left
+    4300002: Foot_Right
+    4300004: Hand_Left
+    4300006: Hand_Right
+    4300008: Butt
+    4300010: Chest
+    4300012: Top
+    4300014: Eye_Left
+    4300016: Eye_Right
+    4300018: Head
+    7400000: Idle
+    7400002: Flail
+    7400004: Clap
+    7400006: Pray
+    7400008: Jazz Hands
+    7400010: Praise Sun
+    7400012: Mexican Wave
+    7400014: Russian Kick
+    7400016: Jelly Time
+    7400018: Jumping Jack
+    7400020: Laying Down
+    7400022: Robot
+    9500000: //RootNode
+    13700000: Butt
+    13700002: Chest 1
+    13700004: Eye_Left
+    13700006: Eye_Right
+    13700008: Foot_Left
+    13700010: Foot_Right
+    13700012: Hand_Left
+    13700014: Hand_Right
+    13700016: Head
+    13700018: Top
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Idle
+      takeName: Take 001
+      firstFrame: 1
+      lastFrame: 64
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: group1
+        weight: 1
+      - path: group1/Butt
+        weight: 1
+      - path: group1/Chest 1
+        weight: 1
+      - path: group1/Eye_Left
+        weight: 1
+      - path: group1/Eye_Right
+        weight: 1
+      - path: group1/Foot_Left
+        weight: 1
+      - path: group1/Foot_Right
+        weight: 1
+      - path: group1/Hand_Left
+        weight: 1
+      - path: group1/Hand_Right
+        weight: 1
+      - path: group1/Head
+        weight: 1
+      - path: group1/Top
+        weight: 1
+      - path: ikHandle1
+        weight: 1
+      - path: ikHandle2
+        weight: 1
+      - path: Node
+        weight: 1
+      - path: Node/Chest
+        weight: 1
+      - path: Node/Chest/Elbow_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1/Tip_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Right
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1/Tip_Right
+        weight: 1
+      - path: Node/Chest/Head 1
+        weight: 1
+      - path: Node/Chest/Head 1/Top 1
+        weight: 1
+      - path: Node/Hip_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left/Foot_Left 1
+        weight: 1
+      - path: Node/Hip_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right/Foot_Right 1
+        weight: 1
+      - path: Node/Tail
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Flail
+      takeName: Take 001
+      firstFrame: 70
+      lastFrame: 120
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: group1
+        weight: 1
+      - path: group1/Butt
+        weight: 1
+      - path: group1/Chest 1
+        weight: 1
+      - path: group1/Eye_Left
+        weight: 1
+      - path: group1/Eye_Right
+        weight: 1
+      - path: group1/Foot_Left
+        weight: 1
+      - path: group1/Foot_Right
+        weight: 1
+      - path: group1/Hand_Left
+        weight: 1
+      - path: group1/Hand_Right
+        weight: 1
+      - path: group1/Head
+        weight: 1
+      - path: group1/Top
+        weight: 1
+      - path: ikHandle1
+        weight: 1
+      - path: ikHandle2
+        weight: 1
+      - path: Node
+        weight: 1
+      - path: Node/Chest
+        weight: 1
+      - path: Node/Chest/Elbow_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1/Tip_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Right
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1/Tip_Right
+        weight: 1
+      - path: Node/Chest/Head 1
+        weight: 1
+      - path: Node/Chest/Head 1/Top 1
+        weight: 1
+      - path: Node/Hip_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left/Foot_Left 1
+        weight: 1
+      - path: Node/Hip_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right/Foot_Right 1
+        weight: 1
+      - path: Node/Tail
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Clap
+      takeName: Take 001
+      firstFrame: 125
+      lastFrame: 181
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: group1
+        weight: 1
+      - path: group1/Butt
+        weight: 1
+      - path: group1/Chest 1
+        weight: 1
+      - path: group1/Eye_Left
+        weight: 1
+      - path: group1/Eye_Right
+        weight: 1
+      - path: group1/Foot_Left
+        weight: 1
+      - path: group1/Foot_Right
+        weight: 1
+      - path: group1/Hand_Left
+        weight: 1
+      - path: group1/Hand_Right
+        weight: 1
+      - path: group1/Head
+        weight: 1
+      - path: group1/Top
+        weight: 1
+      - path: ikHandle1
+        weight: 1
+      - path: ikHandle2
+        weight: 1
+      - path: Node
+        weight: 1
+      - path: Node/Chest
+        weight: 1
+      - path: Node/Chest/Elbow_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1/Tip_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Right
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1/Tip_Right
+        weight: 1
+      - path: Node/Chest/Head 1
+        weight: 1
+      - path: Node/Chest/Head 1/Top 1
+        weight: 1
+      - path: Node/Hip_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left/Foot_Left 1
+        weight: 1
+      - path: Node/Hip_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right/Foot_Right 1
+        weight: 1
+      - path: Node/Tail
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Pray
+      takeName: Take 001
+      firstFrame: 185
+      lastFrame: 241
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: group1
+        weight: 1
+      - path: group1/Butt
+        weight: 1
+      - path: group1/Chest 1
+        weight: 1
+      - path: group1/Eye_Left
+        weight: 1
+      - path: group1/Eye_Right
+        weight: 1
+      - path: group1/Foot_Left
+        weight: 1
+      - path: group1/Foot_Right
+        weight: 1
+      - path: group1/Hand_Left
+        weight: 1
+      - path: group1/Hand_Right
+        weight: 1
+      - path: group1/Head
+        weight: 1
+      - path: group1/Top
+        weight: 1
+      - path: ikHandle1
+        weight: 1
+      - path: ikHandle2
+        weight: 1
+      - path: Node
+        weight: 1
+      - path: Node/Chest
+        weight: 1
+      - path: Node/Chest/Elbow_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1/Tip_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Right
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1/Tip_Right
+        weight: 1
+      - path: Node/Chest/Head 1
+        weight: 1
+      - path: Node/Chest/Head 1/Top 1
+        weight: 1
+      - path: Node/Hip_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left/Foot_Left 1
+        weight: 1
+      - path: Node/Hip_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right/Foot_Right 1
+        weight: 1
+      - path: Node/Tail
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Jazz Hands
+      takeName: Take 001
+      firstFrame: 245
+      lastFrame: 301
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: group1
+        weight: 1
+      - path: group1/Butt
+        weight: 1
+      - path: group1/Chest 1
+        weight: 1
+      - path: group1/Eye_Left
+        weight: 1
+      - path: group1/Eye_Right
+        weight: 1
+      - path: group1/Foot_Left
+        weight: 1
+      - path: group1/Foot_Right
+        weight: 1
+      - path: group1/Hand_Left
+        weight: 1
+      - path: group1/Hand_Right
+        weight: 1
+      - path: group1/Head
+        weight: 1
+      - path: group1/Top
+        weight: 1
+      - path: ikHandle1
+        weight: 1
+      - path: ikHandle2
+        weight: 1
+      - path: Node
+        weight: 1
+      - path: Node/Chest
+        weight: 1
+      - path: Node/Chest/Elbow_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1/Tip_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Right
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1/Tip_Right
+        weight: 1
+      - path: Node/Chest/Head 1
+        weight: 1
+      - path: Node/Chest/Head 1/Top 1
+        weight: 1
+      - path: Node/Hip_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left/Foot_Left 1
+        weight: 1
+      - path: Node/Hip_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right/Foot_Right 1
+        weight: 1
+      - path: Node/Tail
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Praise Sun
+      takeName: Take 001
+      firstFrame: 305
+      lastFrame: 361
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: group1
+        weight: 1
+      - path: group1/Butt
+        weight: 1
+      - path: group1/Chest 1
+        weight: 1
+      - path: group1/Eye_Left
+        weight: 1
+      - path: group1/Eye_Right
+        weight: 1
+      - path: group1/Foot_Left
+        weight: 1
+      - path: group1/Foot_Right
+        weight: 1
+      - path: group1/Hand_Left
+        weight: 1
+      - path: group1/Hand_Right
+        weight: 1
+      - path: group1/Head
+        weight: 1
+      - path: group1/Top
+        weight: 1
+      - path: ikHandle1
+        weight: 1
+      - path: ikHandle2
+        weight: 1
+      - path: Node
+        weight: 1
+      - path: Node/Chest
+        weight: 1
+      - path: Node/Chest/Elbow_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1/Tip_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Right
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1/Tip_Right
+        weight: 1
+      - path: Node/Chest/Head 1
+        weight: 1
+      - path: Node/Chest/Head 1/Top 1
+        weight: 1
+      - path: Node/Hip_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left/Foot_Left 1
+        weight: 1
+      - path: Node/Hip_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right/Foot_Right 1
+        weight: 1
+      - path: Node/Tail
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Mexican Wave
+      takeName: Take 001
+      firstFrame: 365
+      lastFrame: 421
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: group1
+        weight: 1
+      - path: group1/Butt
+        weight: 1
+      - path: group1/Chest 1
+        weight: 1
+      - path: group1/Eye_Left
+        weight: 1
+      - path: group1/Eye_Right
+        weight: 1
+      - path: group1/Foot_Left
+        weight: 1
+      - path: group1/Foot_Right
+        weight: 1
+      - path: group1/Hand_Left
+        weight: 1
+      - path: group1/Hand_Right
+        weight: 1
+      - path: group1/Head
+        weight: 1
+      - path: group1/Top
+        weight: 1
+      - path: ikHandle1
+        weight: 1
+      - path: ikHandle2
+        weight: 1
+      - path: Node
+        weight: 1
+      - path: Node/Chest
+        weight: 1
+      - path: Node/Chest/Elbow_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1/Tip_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Right
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1/Tip_Right
+        weight: 1
+      - path: Node/Chest/Head 1
+        weight: 1
+      - path: Node/Chest/Head 1/Top 1
+        weight: 1
+      - path: Node/Hip_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left/Foot_Left 1
+        weight: 1
+      - path: Node/Hip_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right/Foot_Right 1
+        weight: 1
+      - path: Node/Tail
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Russian Kick
+      takeName: Take 001
+      firstFrame: 425
+      lastFrame: 481
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: group1
+        weight: 1
+      - path: group1/Butt
+        weight: 1
+      - path: group1/Chest 1
+        weight: 1
+      - path: group1/Eye_Left
+        weight: 1
+      - path: group1/Eye_Right
+        weight: 1
+      - path: group1/Foot_Left
+        weight: 1
+      - path: group1/Foot_Right
+        weight: 1
+      - path: group1/Hand_Left
+        weight: 1
+      - path: group1/Hand_Right
+        weight: 1
+      - path: group1/Head
+        weight: 1
+      - path: group1/Top
+        weight: 1
+      - path: ikHandle1
+        weight: 1
+      - path: ikHandle2
+        weight: 1
+      - path: Node
+        weight: 1
+      - path: Node/Chest
+        weight: 1
+      - path: Node/Chest/Elbow_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1/Tip_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Right
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1/Tip_Right
+        weight: 1
+      - path: Node/Chest/Head 1
+        weight: 1
+      - path: Node/Chest/Head 1/Top 1
+        weight: 1
+      - path: Node/Hip_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left/Foot_Left 1
+        weight: 1
+      - path: Node/Hip_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right/Foot_Right 1
+        weight: 1
+      - path: Node/Tail
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Jelly Time
+      takeName: Take 001
+      firstFrame: 485
+      lastFrame: 541
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: group1
+        weight: 1
+      - path: group1/Butt
+        weight: 1
+      - path: group1/Chest 1
+        weight: 1
+      - path: group1/Eye_Left
+        weight: 1
+      - path: group1/Eye_Right
+        weight: 1
+      - path: group1/Foot_Left
+        weight: 1
+      - path: group1/Foot_Right
+        weight: 1
+      - path: group1/Hand_Left
+        weight: 1
+      - path: group1/Hand_Right
+        weight: 1
+      - path: group1/Head
+        weight: 1
+      - path: group1/Top
+        weight: 1
+      - path: ikHandle1
+        weight: 1
+      - path: ikHandle2
+        weight: 1
+      - path: Node
+        weight: 1
+      - path: Node/Chest
+        weight: 1
+      - path: Node/Chest/Elbow_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1/Tip_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Right
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1/Tip_Right
+        weight: 1
+      - path: Node/Chest/Head 1
+        weight: 1
+      - path: Node/Chest/Head 1/Top 1
+        weight: 1
+      - path: Node/Hip_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left/Foot_Left 1
+        weight: 1
+      - path: Node/Hip_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right/Foot_Right 1
+        weight: 1
+      - path: Node/Tail
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Jumping Jack
+      takeName: Take 001
+      firstFrame: 545
+      lastFrame: 601
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: group1
+        weight: 1
+      - path: group1/Butt
+        weight: 1
+      - path: group1/Chest 1
+        weight: 1
+      - path: group1/Eye_Left
+        weight: 1
+      - path: group1/Eye_Right
+        weight: 1
+      - path: group1/Foot_Left
+        weight: 1
+      - path: group1/Foot_Right
+        weight: 1
+      - path: group1/Hand_Left
+        weight: 1
+      - path: group1/Hand_Right
+        weight: 1
+      - path: group1/Head
+        weight: 1
+      - path: group1/Top
+        weight: 1
+      - path: ikHandle1
+        weight: 1
+      - path: ikHandle2
+        weight: 1
+      - path: Node
+        weight: 1
+      - path: Node/Chest
+        weight: 1
+      - path: Node/Chest/Elbow_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1/Tip_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Right
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1/Tip_Right
+        weight: 1
+      - path: Node/Chest/Head 1
+        weight: 1
+      - path: Node/Chest/Head 1/Top 1
+        weight: 1
+      - path: Node/Hip_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left/Foot_Left 1
+        weight: 1
+      - path: Node/Hip_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right/Foot_Right 1
+        weight: 1
+      - path: Node/Tail
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Laying Down
+      takeName: Take 001
+      firstFrame: 601
+      lastFrame: 661
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: group1
+        weight: 1
+      - path: group1/Butt
+        weight: 1
+      - path: group1/Chest 1
+        weight: 1
+      - path: group1/Eye_Left
+        weight: 1
+      - path: group1/Eye_Right
+        weight: 1
+      - path: group1/Foot_Left
+        weight: 1
+      - path: group1/Foot_Right
+        weight: 1
+      - path: group1/Hand_Left
+        weight: 1
+      - path: group1/Hand_Right
+        weight: 1
+      - path: group1/Head
+        weight: 1
+      - path: group1/Top
+        weight: 1
+      - path: ikHandle1
+        weight: 1
+      - path: ikHandle2
+        weight: 1
+      - path: Node
+        weight: 1
+      - path: Node/Chest
+        weight: 1
+      - path: Node/Chest/Elbow_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1/Tip_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Right
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1/Tip_Right
+        weight: 1
+      - path: Node/Chest/Head 1
+        weight: 1
+      - path: Node/Chest/Head 1/Top 1
+        weight: 1
+      - path: Node/Hip_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left/Foot_Left 1
+        weight: 1
+      - path: Node/Hip_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right/Foot_Right 1
+        weight: 1
+      - path: Node/Tail
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    - serializedVersion: 16
+      name: Robot
+      takeName: Take 001
+      firstFrame: 665
+      lastFrame: 721
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: group1
+        weight: 1
+      - path: group1/Butt
+        weight: 1
+      - path: group1/Chest 1
+        weight: 1
+      - path: group1/Eye_Left
+        weight: 1
+      - path: group1/Eye_Right
+        weight: 1
+      - path: group1/Foot_Left
+        weight: 1
+      - path: group1/Foot_Right
+        weight: 1
+      - path: group1/Hand_Left
+        weight: 1
+      - path: group1/Hand_Right
+        weight: 1
+      - path: group1/Head
+        weight: 1
+      - path: group1/Top
+        weight: 1
+      - path: ikHandle1
+        weight: 1
+      - path: ikHandle2
+        weight: 1
+      - path: Node
+        weight: 1
+      - path: Node/Chest
+        weight: 1
+      - path: Node/Chest/Elbow_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1
+        weight: 1
+      - path: Node/Chest/Elbow_Left/Hand_Left 1/Tip_Left
+        weight: 1
+      - path: Node/Chest/Elbow_Right
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1
+        weight: 1
+      - path: Node/Chest/Elbow_Right/Hand_Right 1/Tip_Right
+        weight: 1
+      - path: Node/Chest/Head 1
+        weight: 1
+      - path: Node/Chest/Head 1/Top 1
+        weight: 1
+      - path: Node/Hip_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left
+        weight: 1
+      - path: Node/Hip_Left/Knee_Left/Foot_Left 1
+        weight: 1
+      - path: Node/Hip_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right
+        weight: 1
+      - path: Node/Hip_Right/Knee_Right/Foot_Right 1
+        weight: 1
+      - path: Node/Tail
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
