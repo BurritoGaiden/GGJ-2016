@@ -20,7 +20,6 @@ public static class Music {
 
 	public static void InputCorrect(bool correct) {
 		var mcb = GameObject.FindGameObjectWithTag(Tags.MUSICCONTROLLER).GetComponent<MusicControllerBehavior>();
-		Debug.Log("Correct?" + correct.ToString());
 		mcb.AudioSource[2].volume = (correct) ? 1.0f : 0.0f;
 		mcb.AudioSource[3].volume = (!correct) ? 1.0f : 0.0f;
 	}

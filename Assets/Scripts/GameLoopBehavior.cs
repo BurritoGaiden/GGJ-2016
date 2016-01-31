@@ -22,7 +22,7 @@ public enum GameStates {
 [System.Serializable]
 public class Something {
 	public GameObject Prefab;
-	public Vector3 Position;	
+	public Vector3 Position;
 }
 
 // TODO(bret): Before shipping, Window -> Lighting -> Lightmap Tab -> Enable Continuous Baking
@@ -49,6 +49,19 @@ public class GameLoopBehavior : MonoBehaviour {
 	// Song information
 	private int level = 0;
 
+	private bool firstRun = true;
+
+	private LineRenderer laserLineRenderer;
+
+	public AudioClip LaserSound;
+	private AudioSource laserAudioSource;
+
+	public AudioClip[] Screams;
+	private AudioSource screamAudioSource;
+
+	public AudioClip RumbleSound;
+	private AudioSource rumbleAudioSource;
+
 #if UNITY_ANDROID
 	public float minSwipeDistX;
 	public float minSwipeDistY;
@@ -63,7 +76,19 @@ public class GameLoopBehavior : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
+		Messenger.Instance.Listen(ListenerType.ADDEDTOPOT, this);
+
 		ChangeState(GameStates.SETUP);
+
+		laserLineRenderer = GetComponent<LineRenderer>();
+
+		laserAudioSource = gameObject.AddComponent<AudioSource>();
+		laserAudioSource.clip = LaserSound;
+
+		screamAudioSource = gameObject.AddComponent<AudioSource>();
+
+		rumbleAudioSource = gameObject.AddComponent<AudioSource>();
+		rumbleAudioSource.clip = RumbleSound;
 
 #if UNITY_ANDROID
 		float smaller = Mathf.Min(Screen.width, Screen.height);
@@ -73,12 +98,24 @@ public class GameLoopBehavior : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
+		if (Input.GetKeyDown(KeyCode.Space)) {
+			new MessageScreenshake() {
+				Amount = 5.0f
+			}.Send();
+		}
 
+		if (Input.GetKeyDown(KeyCode.S))
+			ChangeState(((GameStates)(int)CurrentState + 1));
 	}
 
 	// Called 60 times a second
 	void FixedUpdate() {
 		//
+	}
+
+	public void _AddedToPot(MessageAddedToPot msg) {
+		screamAudioSource.clip = Screams[Random.Range(0, Screams.Length)];
+		screamAudioSource.Play();
 	}
 
 #if UNITY_EDITOR
@@ -137,6 +174,8 @@ public class GameLoopBehavior : MonoBehaviour {
 	}
 
 	private IEnumerator Setup() {
+		yield return new WaitForSeconds(2.0f);
+
 		// Instantiate dancers
 		GameObject characters = new GameObject("Characters");
 		GameObject explorersParent = new GameObject("Explorers");
@@ -162,6 +201,10 @@ public class GameLoopBehavior : MonoBehaviour {
 		yield return 0;
 
 		// Play Music
+		if (firstRun) {
+			Settings.Volume = 0.5f;
+			firstRun = false;
+		}
 		Music.PlayTracks();
 	}
 
@@ -210,6 +253,8 @@ public class GameLoopBehavior : MonoBehaviour {
 	}
 
 	private IEnumerator TribeDance() {
+		rumbleAudioSource.Play();
+
 #if UNITY_EDITOR
 		float total = Music.GetTrackLength(MusicFiles.TRIBAL);
 		for (float elapsed = 0.0f; elapsed < total; elapsed += Time.deltaTime) {
@@ -275,19 +320,19 @@ public class GameLoopBehavior : MonoBehaviour {
 	}
 
 	private IEnumerator EndRound() {
+		rumbleAudioSource.PlayDelayed(2.5f);
+
 		bool inputCorrect = pillarChosen.CheckInput(inputQueue);
 		Music.InputCorrect(inputCorrect);
 
 #if UNITY_EDITOR
-		float total = Music.GetTrackLength(MusicFiles.WIN);
+		/*float total = Music.GetTrackLength(MusicFiles.WIN);
 		for (float elapsed = 0.0f; elapsed < total; elapsed += Time.deltaTime) {
 			progress = 2;
 			progressElapsed = elapsed;
 			progressTotal = total;
 			yield return 0;
-		}
-#else
-		yield return new WaitForSeconds(Music.GetTrackLength(MusicFiles.WIN));
+		}*/
 #endif
 
 		// If the input was correct
@@ -317,14 +362,50 @@ public class GameLoopBehavior : MonoBehaviour {
 		yield return 0;
 	}
 
+	float beamChargeTimer = 0.0f;
+	float beamChargeLength = 2.0f;
+	float beamShootLength = 0.2f;
+
 	// TODO(anyone): implement
 	private IEnumerator KillExplorer() {
-		// Temp code
-		var explorer = explorers[explorers.Count - 1];
-		Destroy(explorer);
-		explorers.Remove(explorer);
+		float timeLeft = Music.GetTrackLength(MusicFiles.LOSE);
 
-		//yield return new WaitForSeconds(Music.GetTrackLength(MusicFiles.LOSE));
+		// Play laser sound
+		laserAudioSource.Play();
+
+		// Glow
+		for (beamChargeTimer = 0.0f; beamChargeTimer < beamChargeLength; beamChargeTimer += Time.deltaTime) {
+			timeLeft -= Time.deltaTime;
+
+			// TODO(bret): Beam charge
+
+			yield return 0;
+		}
+		
+		// Shoot
+		var explorer = explorers[explorers.Count - 1];
+		explorers.Remove(explorer);
+		explorer.GetComponent<ExplorerBehavior>().Die();
+
+		new MessageScreenshake() {
+			Amount = 5.0f
+		}.Send();
+
+		laserLineRenderer.SetPosition(1, explorer.transform.position);
+		laserLineRenderer.enabled = true;
+		for (float t = 0.0f; t < beamShootLength; t += Time.deltaTime) {
+			timeLeft -= Time.deltaTime;
+			yield return 0;
+		}
+		laserLineRenderer.enabled = false;
+
+		yield return 0;
+		
+
+		// Wait
+		for (; timeLeft > 0; timeLeft -= Time.deltaTime) {
+			yield return 0;
+		}
 
 		yield return 0;
 	}

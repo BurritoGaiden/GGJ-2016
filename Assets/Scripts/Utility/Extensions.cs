@@ -62,4 +62,8 @@ public static class Extensions {
 	public static float GetEulerAngleZ(this Transform t) {
 		return t.eulerAngles.z;
 	}
+
+	public static void SetVolume(this AudioSource a, float value) {
+		a.volume = value * Settings.Volume;
+	}
 }

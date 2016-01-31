@@ -67,6 +67,7 @@ public class PillarBehavior : MonoBehaviour {
 	public void _ChangeState(MessageChangeState msg) {
 		if (msg.GameState == GameStates.ENDROUND) {
 			sinkDirection *= -1.0f;
+			sinkDelay = 2.5f;
 		}
 	}
 
