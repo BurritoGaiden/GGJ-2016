@@ -100,8 +100,8 @@ public class PillarBehavior : MonoBehaviour {
 			faceOffsets[3] = new Vector3(-0.1f, -2.25f, 0.95f);
 
 			// Top/bottom on Pillar 3
-			faceOffsets[4] = new Vector3(0.0f, 0.35f, 0.95f);
-			faceOffsets[5] = new Vector3(0.0f, -2.45f, 0.95f);
+			faceOffsets[4] = new Vector3(0.0f, -0.35f, 0.9f);
+			faceOffsets[5] = new Vector3(0.0f, -2.95f, 0.9f);
 
 			// Top/bottom on Pillar 4
 			faceOffsets[6] = new Vector3(0.0f, 0.55f, 0.95f);
@@ -148,7 +148,7 @@ public class PillarBehavior : MonoBehaviour {
 		icongo.name = ((top) ? "0 Top" : "1 Bottom") + " Icon";
 		icongo.transform.parent = gameObject.transform;
 		int index = (top ? 0 : 1) + PillarID * 2;
-		icongo.transform.localPosition = faceOffsets[index] + new Vector3(0.05f, 1.1f);
+		icongo.transform.localPosition = faceOffsets[index] + new Vector3(0.05f, 1.3f);
 	}
 
 	// TODO(anyone): implement
@@ -273,6 +273,7 @@ public class PillarBehavior : MonoBehaviour {
 		for (i = start; i < n; ++i) {
 			Arrows[i].SetActive(false);
 			ArrowsGlowing[i].SetActive(true);
+			//ArrowsGlowing[i].GetComponent<MeshRenderer>().material.color = Color.green;
 		}
 
 		for (i = n; i < end; ++i) {

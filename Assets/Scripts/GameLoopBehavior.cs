@@ -19,6 +19,12 @@ public enum GameStates {
 	NUM,
 }
 
+[System.Serializable]
+public class Something {
+	public GameObject Prefab;
+	public Vector3 Position;	
+}
+
 // TODO(bret): Before shipping, Window -> Lighting -> Lightmap Tab -> Enable Continuous Baking
 public class GameLoopBehavior : MonoBehaviour {
 
@@ -26,8 +32,8 @@ public class GameLoopBehavior : MonoBehaviour {
 
 	// Prefabs
 	public GameObject SceneObject;
-	public GameObject[] TribeMemberPrefabs;
-	public GameObject[] ExplorerPrefabs;
+	public Something[] TribeMemberPrefabs;
+	public Something[] ExplorerPrefabs;
 
 	// Input handling
 	private List<Vector2> inputQueue = new List<Vector2>();
@@ -131,42 +137,25 @@ public class GameLoopBehavior : MonoBehaviour {
 	}
 
 	private IEnumerator Setup() {
-		// Instantiate dancers and pillars
-		float angle = 30.0f;
-		float angleIncrease = 30.0f; // 30 deg, 1/6pi rad
-		float circleRadius = 8.0f;
-		float x = 0.0f;
-		float z = 0.0f;
-
+		// Instantiate dancers
 		GameObject characters = new GameObject("Characters");
 		GameObject explorersParent = new GameObject("Explorers");
 		explorersParent.transform.parent = characters.transform;
 		GameObject tribeMembersParent = new GameObject("Tribe Members");
 		tribeMembersParent.transform.parent = characters.transform;
 
-		// TODO(bret): Rework this
-		for (int i = 0; i < 5; ++i) {
-			x = Mathf.Cos(angle * Mathf.Deg2Rad) * circleRadius;
-			z = Mathf.Sin(angle * Mathf.Deg2Rad) * circleRadius;
-
-			GameObject explorer = Instantiate(ExplorerPrefabs[i]);
-			explorer.transform.SetPositionX(x);
-			explorer.transform.SetPositionZ(z);
+		for (int i = 0; i < ExplorerPrefabs.Length; ++i) {
+			GameObject explorer = Instantiate(ExplorerPrefabs[i].Prefab);
+			explorer.transform.position = ExplorerPrefabs[i].Position;
 			explorer.transform.SetEulerAngleY(180.0f);
 			explorers.Add(explorer);
 			explorer.transform.parent = explorersParent.transform;
+		}
 
-			if (i != 0 && i != 4) {
-				GameObject tribeMember = Instantiate(TribeMemberPrefabs[i - 1]);
-				tribeMember.transform.SetPositionX(-x);
-				tribeMember.transform.SetPositionZ(-z);
-				tribeMember.transform.parent = tribeMembersParent.transform;
-			}
-
-			x = Mathf.Cos(angle * Mathf.Deg2Rad) * 10.0f;
-			z = Mathf.Sin(angle * Mathf.Deg2Rad) * 13.0f;
-
-			angle += angleIncrease;
+		for (int i = 0; i < TribeMemberPrefabs.Length; ++i) {
+			GameObject tribeMember = Instantiate(TribeMemberPrefabs[i].Prefab);
+			tribeMember.transform.position = TribeMemberPrefabs[i].Position;
+			tribeMember.transform.parent = tribeMembersParent.transform;
 		}
 
 		ChangeState(GameStates.STARTROUND);
@@ -194,10 +183,14 @@ public class GameLoopBehavior : MonoBehaviour {
 		foreach (Transform child in SceneObject.transform) {
 			if (child.name.StartsWith("Pillar")) {
 				GameObject pillarPrefab = child.gameObject;
+				if (pillarPrefab.GetComponent<PillarBehavior>() == null)
+					continue;
 
 				GameObject pillar = Instantiate(pillarPrefab);
 				pillar.SetActive(true);
 				var pillarBehavior = pillar.GetComponent<PillarBehavior>();
+				if (pillarBehavior == null)
+					Debug.Log("WHAT THE FUCK");
 				pillarBehavior.PillarID = id;
 				pillarBehavior.Create();
 				pillars.Add(pillarBehavior);
