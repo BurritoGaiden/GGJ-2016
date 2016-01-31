@@ -31,6 +31,7 @@ public class PillarBehavior : MonoBehaviour {
 	public GameObject DanceIcon;
 	public GameObject[] ArrowPrefabs;
 	private GameObject[] Arrows;
+	private GameObject[] ArrowsGlowing;
 
 	public int MountainForce;
 
@@ -118,6 +119,8 @@ public class PillarBehavior : MonoBehaviour {
 		// Set some variables
 		var dmb = DanceManagerBehavior.GetInstance();
 		swapped = (Random.Range(0, 2) > 0);
+		Arrows = new GameObject[8];
+		ArrowsGlowing = new GameObject[8];
 
 		// Set up Tribal dance information
 		Tribal.InputString = CreateRandomInputString();
@@ -127,7 +130,7 @@ public class PillarBehavior : MonoBehaviour {
 			// TODO: Add chance for broken tile based on GameLoopBehavior.level
 			PlaceIcon(Tribal.Dance.Icon, swapped);
 		}
-		PlaceArrows(Tribal.InputString, swapped);
+		PlaceArrows(Tribal.InputString, swapped, 0);
 
 		// Set up Explorer dance information
 		Explorer.InputString = CreateRandomInputString();
@@ -137,7 +140,7 @@ public class PillarBehavior : MonoBehaviour {
 			// TODO: Add chance for broken tile based on GameLoopBehavior.level
 			PlaceIcon(Explorer.Dance.Icon, !swapped);
 		}
-		PlaceArrows(Explorer.InputString, !swapped);
+		PlaceArrows(Explorer.InputString, !swapped, 4);
 	}
 
 	private void PlaceIcon(GameObject icon, bool top) {
@@ -149,7 +152,7 @@ public class PillarBehavior : MonoBehaviour {
 	}
 
 	// TODO(anyone): implement
-	private void PlaceArrows(List<Vector2> inputString, bool top) {
+	private void PlaceArrows(List<Vector2> inputString, bool top, int offset) {
 		GameObject arrows = new GameObject(((top) ? "0 Top" : "1 Bottom") + " Arrows");
 		arrows.transform.parent = gameObject.transform;
 		int index = (top ? 0 : 1) + PillarID * 2;
@@ -157,21 +160,34 @@ public class PillarBehavior : MonoBehaviour {
 
 		float x = 1.25f;
 		float increment = -0.8f;
-		Arrows = new GameObject[inputString.Count];
 		for (int i = 0; i < inputString.Count; ++i) {
+			// Default arrow
 			GameObject prefab = null;
-			string name = "";
 			if (inputString[i] == InputDir.Up) prefab = ArrowPrefabs[0];
 			if (inputString[i] == InputDir.Right) prefab = ArrowPrefabs[1];
 			if (inputString[i] == InputDir.Down) prefab = ArrowPrefabs[2];
 			if (inputString[i] == InputDir.Left) prefab = ArrowPrefabs[3];
 
 			var newArrow = (GameObject)Instantiate(prefab);
-			newArrow.name = "Arrow " + (i + 1).ToString();
+			newArrow.name = "Arrow " + (i + offset + 1).ToString();
 			newArrow.transform.parent = arrows.transform;
 			newArrow.transform.localPosition = new Vector3(x, 0.0f);
-			Arrows[i] = newArrow;
+			Arrows[i + offset] = newArrow;
 
+			// Glowing arrow
+			if (inputString[i] == InputDir.Up) prefab = ArrowPrefabs[4];
+			if (inputString[i] == InputDir.Right) prefab = ArrowPrefabs[5];
+			if (inputString[i] == InputDir.Down) prefab = ArrowPrefabs[6];
+			if (inputString[i] == InputDir.Left) prefab = ArrowPrefabs[7];
+
+			var newArrowGlow = (GameObject)Instantiate(prefab);
+			newArrowGlow.name = "Arrow " + (i + offset + 1).ToString() + " Glowing";
+			newArrowGlow.transform.parent = arrows.transform;
+			newArrowGlow.transform.localPosition = new Vector3(x, 0.0f);
+			newArrowGlow.SetActive(false);
+			ArrowsGlowing[i + offset] = newArrowGlow;
+
+			// Increment x position
 			x += increment;
 		}
 	}
@@ -213,33 +229,56 @@ public class PillarBehavior : MonoBehaviour {
 	}
 
 	public bool CheckInput(List<Vector2> inputQueue) {
-		// Check input one at a time to see if they match
-		/*int n = 0;
-		bool success = true;
+		bool success = false;
+		int n = 0;
+
+		// Tribal input
+		for (int i = 0; i < Tribal.InputString.Count && i < inputQueue.Count; ++i, ++n) {
+			if (inputQueue[i] != Tribal.InputString[i]) {
+				break;
+			}
+		}
+		if (n < inputQueue.Count) n = 0;
+
+		if (n == 4) success = true;
+		HighlightArrows(n, 0);
+
+		// Explorer input
+		n = 0;
 		for (int i = 0; i < Explorer.InputString.Count && i < inputQueue.Count; ++i, ++n) {
 			if (inputQueue[i] != Explorer.InputString[i]) {
-				success = false;
 				break;
 			}
 		}
+		if (n < inputQueue.Count) n = 0;
 
-		HighlightArrows(n);*/
+		if (n == 4) success = true;
+		HighlightArrows(n, 4);
 
-		bool success = true;
-		int i = 0;
-		for (i = 0; i < Explorer.InputString.Count && i < inputQueue.Count; ++i) {
-			if (inputQueue[i] != Explorer.InputString[i]) {
-				success = false;
-				break;
-			}
-		}
-
-		return success && (i >= Explorer.InputString.Count);
+		return success;
 	}
 
 	// TODO(anyone): implement
-	private void HighlightArrows(int n) {
-		
+	private void HighlightArrows(int n, int offset) {
+		int i;
+		int start = offset;
+		int end = start + 4;
+		n += offset;
+
+		for (i = start; i < end; ++i) {
+			Arrows[i].SetActive(true);
+			ArrowsGlowing[i].SetActive(false);
+		}
+
+		for (i = start; i < n; ++i) {
+			Arrows[i].SetActive(false);
+			ArrowsGlowing[i].SetActive(true);
+		}
+
+		for (i = n; i < end; ++i) {
+			Arrows[i].SetActive(true);
+			ArrowsGlowing[i].SetActive(false);
+		}
 	}
 
 #if UNITY_EDITOR

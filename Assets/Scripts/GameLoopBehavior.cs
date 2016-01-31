@@ -249,6 +249,11 @@ public class GameLoopBehavior : MonoBehaviour {
 			progressElapsed = progressTotal - inputTimer;
 #endif
 
+			// "Check input" to highlight the things
+			for (int i = 0; i < pillars.Count; ++i) {
+				pillars[i].CheckInput(inputQueue);
+			}
+
 			// Check to see if time is up, the correct input has been given, or if the input is the full length
 			if ((inputTimer <= 0.0f) || (pillarChosen.CheckInput(inputQueue)) || (inputQueue.Count >= inputLength)) {
 				break;

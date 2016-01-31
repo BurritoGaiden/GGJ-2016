@@ -7,7 +7,7 @@ public class MessageChangeState : Message {
 
 	public MessageChangeState()
 		: base(ListenerType.CHANGESTATE) {
-		
+
 	}
 
 }
