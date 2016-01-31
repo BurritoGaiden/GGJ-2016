@@ -14,6 +14,28 @@ public class PillarBehavior : MonoBehaviour {
 	public IconInfo Tribal;
 	public IconInfo Explorer;
 
+	private static Vector3[] faceOffsets;
+	private static bool faceOffsetsCreated = false;
+	private static GameObject pillarParent;
+
+	// Positioning
+	private Vector3 startPos;
+	private Vector3 sinkOffset = new Vector3(0.0f, -8.5f, 0.0f);
+	private Vector3 shakeOffset = new Vector3();
+	private float sinkDelay = 0.0f;
+	private float sinkDelayMax = 0.8f;
+	private float sinkSpeed = 1.0f / 5.0f; // The second number is the number of seconds
+	private float sinkLerpValue = 1.0f;
+	public float sinkDirection = -1.0f;
+
+	public GameObject DanceIcon;
+	public GameObject[] ArrowPrefabs;
+	private GameObject[] Arrows;
+
+	public int MountainForce;
+
+	public int PillarID = -1;
+
 	// If false, tribal on top, if true, explorer on top
 	private bool swapped = false;
 
@@ -22,12 +44,29 @@ public class PillarBehavior : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		
+		Messenger.Instance.Listen(ListenerType.CHANGESTATE, this);
 	}
 
 	// Update is called once per frame
 	void Update() {
+		if (sinkDelay > 0.0f)
+			sinkDelay -= Time.deltaTime;
 
+		if (sinkDelay <= 0.0f) {
+			sinkLerpValue += sinkSpeed * sinkDirection * Time.deltaTime;
+			sinkLerpValue = Mathf.Clamp01(sinkLerpValue);
+			transform.position = startPos + Vector3.Lerp(Vector3.zero, sinkOffset, sinkLerpValue);
+			if ((sinkLerpValue != 0.0f) && (sinkLerpValue != 1.0f)) {
+				shakeOffset.x = Random.Range(-100.0f, 100.0f) / (float)MountainForce;
+				transform.position += shakeOffset;
+			}
+		}
+	}
+
+	public void _ChangeState(MessageChangeState msg) {
+		if (msg.GameState == GameStates.ENDROUND) {
+			sinkDirection *= -1.0f;
+		}
 	}
 
 	public static void Reset() {
@@ -39,6 +78,43 @@ public class PillarBehavior : MonoBehaviour {
 	}
 
 	public void Create() {
+		startPos = transform.position;
+		transform.position += sinkOffset;
+
+		sinkDelay = 0.1f + Random.Range(0.0f, sinkDelayMax);
+
+		// Create the faceOffsets if not created
+		if (!faceOffsetsCreated) {
+			pillarParent = new GameObject("Pillars");
+			pillarParent.transform.position = Vector3.zero;
+
+			faceOffsets = new Vector3[10];
+
+			// Top/bottom on Pillar 1
+			faceOffsets[0] = new Vector3(-0.1f, 0.6f, 0.95f);
+			faceOffsets[1] = new Vector3(0.0f, -2.2f, 0.95f);
+
+			// Top/bottom on Pillar 2
+			faceOffsets[2] = new Vector3(-0.1f, 0.55f, 0.95f);
+			faceOffsets[3] = new Vector3(-0.1f, -2.25f, 0.95f);
+
+			// Top/bottom on Pillar 3
+			faceOffsets[4] = new Vector3(0.0f, 0.35f, 0.95f);
+			faceOffsets[5] = new Vector3(0.0f, -2.45f, 0.95f);
+
+			// Top/bottom on Pillar 4
+			faceOffsets[6] = new Vector3(0.0f, 0.55f, 0.95f);
+			faceOffsets[7] = new Vector3(0.0f, -2.25f, 0.95f);
+
+			// Top/bottom on Pillar 5
+			faceOffsets[8] = new Vector3(0.0f, 0.6f, 0.95f);
+			faceOffsets[9] = new Vector3(-0.1f, -2.2f, 0.95f);
+
+			faceOffsetsCreated = true;
+		}
+
+		transform.parent = pillarParent.transform;
+
 		// Set some variables
 		var dmb = DanceManagerBehavior.GetInstance();
 		swapped = (Random.Range(0, 2) > 0);
@@ -48,29 +124,56 @@ public class PillarBehavior : MonoBehaviour {
 		Tribal.Dance = dmb.ChooseRandomDance();
 
 		if (Tribal.Dance != null) {
+			// TODO: Add chance for broken tile based on GameLoopBehavior.level
 			PlaceIcon(Tribal.Dance.Icon, swapped);
-			PlaceArrows(Tribal.InputString, swapped);
 		}
+		PlaceArrows(Tribal.InputString, swapped);
 
 		// Set up Explorer dance information
 		Explorer.InputString = CreateRandomInputString();
 		Explorer.Dance = dmb.ChooseRandomDance();
 
 		if (Explorer.Dance != null) {
+			// TODO: Add chance for broken tile based on GameLoopBehavior.level
 			PlaceIcon(Explorer.Dance.Icon, !swapped);
-			PlaceArrows(Explorer.InputString, !swapped);
 		}
+		PlaceArrows(Explorer.InputString, !swapped);
 	}
 
 	private void PlaceIcon(GameObject icon, bool top) {
 		var icongo = Instantiate(icon);
+		icongo.name = ((top) ? "0 Top" : "1 Bottom") + " Icon";
 		icongo.transform.parent = gameObject.transform;
-		icongo.transform.position = gameObject.transform.position + new Vector3(0.0f, (top) ? 0.75f : -0.25f, -0.5f);
+		int index = (top ? 0 : 1) + PillarID * 2;
+		icongo.transform.localPosition = faceOffsets[index] + new Vector3(0.05f, 1.1f);
 	}
 
 	// TODO(anyone): implement
 	private void PlaceArrows(List<Vector2> inputString, bool top) {
-		
+		GameObject arrows = new GameObject(((top) ? "0 Top" : "1 Bottom") + " Arrows");
+		arrows.transform.parent = gameObject.transform;
+		int index = (top ? 0 : 1) + PillarID * 2;
+		arrows.transform.localPosition = faceOffsets[index];
+
+		float x = 1.25f;
+		float increment = -0.8f;
+		Arrows = new GameObject[inputString.Count];
+		for (int i = 0; i < inputString.Count; ++i) {
+			GameObject prefab = null;
+			string name = "";
+			if (inputString[i] == InputDir.Up) prefab = ArrowPrefabs[0];
+			if (inputString[i] == InputDir.Right) prefab = ArrowPrefabs[1];
+			if (inputString[i] == InputDir.Down) prefab = ArrowPrefabs[2];
+			if (inputString[i] == InputDir.Left) prefab = ArrowPrefabs[3];
+
+			var newArrow = (GameObject)Instantiate(prefab);
+			newArrow.name = "Arrow " + (i + 1).ToString();
+			newArrow.transform.parent = arrows.transform;
+			newArrow.transform.localPosition = new Vector3(x, 0.0f);
+			Arrows[i] = newArrow;
+
+			x += increment;
+		}
 	}
 
 	private List<Vector2> CreateRandomInputString() {
@@ -111,7 +214,7 @@ public class PillarBehavior : MonoBehaviour {
 
 	public bool CheckInput(List<Vector2> inputQueue) {
 		// Check input one at a time to see if they match
-		int n = 0;
+		/*int n = 0;
 		bool success = true;
 		for (int i = 0; i < Explorer.InputString.Count && i < inputQueue.Count; ++i, ++n) {
 			if (inputQueue[i] != Explorer.InputString[i]) {
@@ -120,9 +223,18 @@ public class PillarBehavior : MonoBehaviour {
 			}
 		}
 
-		HighlightArrows(n);
+		HighlightArrows(n);*/
 
-		return success;
+		bool success = true;
+		int i = 0;
+		for (i = 0; i < Explorer.InputString.Count && i < inputQueue.Count; ++i) {
+			if (inputQueue[i] != Explorer.InputString[i]) {
+				success = false;
+				break;
+			}
+		}
+
+		return success && (i >= Explorer.InputString.Count);
 	}
 
 	// TODO(anyone): implement

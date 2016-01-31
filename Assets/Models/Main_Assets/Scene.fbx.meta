@@ -1,0 +1,132 @@
+fileFormatVersion: 2
+guid: e9885937782a2464895f4f54422f5376
+timeCreated: 1454185379
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: FirePit
+    100002: Ground
+    100004: Island
+    100006: Ladder
+    100008: Pillar_1
+    100010: Pillar_2
+    100012: Pillar_3
+    100014: Pillar_4
+    100016: Pillar_5
+    100018: Plank_1
+    100020: Plank_2
+    100022: Pot
+    100024: //RootNode
+    100026: Water_1
+    400000: FirePit
+    400002: Ground
+    400004: Island
+    400006: Ladder
+    400008: Pillar_1
+    400010: Pillar_2
+    400012: Pillar_3
+    400014: Pillar_4
+    400016: Pillar_5
+    400018: Plank_1
+    400020: Plank_2
+    400022: Pot
+    400024: //RootNode
+    400026: Water_1
+    2300000: FirePit
+    2300002: Ground
+    2300004: Island
+    2300006: Ladder
+    2300008: Pillar_1
+    2300010: Pillar_2
+    2300012: Pillar_3
+    2300014: Pillar_4
+    2300016: Pillar_5
+    2300018: Plank_1
+    2300020: Plank_2
+    2300022: Pot
+    2300024: Water_1
+    3300000: FirePit
+    3300002: Ground
+    3300004: Island
+    3300006: Ladder
+    3300008: Pillar_1
+    3300010: Pillar_2
+    3300012: Pillar_3
+    3300014: Pillar_4
+    3300016: Pillar_5
+    3300018: Plank_1
+    3300020: Plank_2
+    3300022: Pot
+    3300024: Water_1
+    4300000: Ground
+    4300002: Water_1
+    4300004: Pot
+    4300006: FirePit
+    4300008: Plank_1
+    4300010: Ladder
+    4300012: Plank_2
+    4300014: Pillar_3
+    4300016: Pillar_2
+    4300018: Pillar_1
+    4300020: Island
+    4300022: Pillar_4
+    4300024: Pillar_5
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

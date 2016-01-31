@@ -2,33 +2,32 @@
 using System.Collections;
 using System.Collections.Generic;
 
+// ##### GAME LOOP #####
+// 1) The Rule Blocks are created
+// 2) The tribesmen pick one of the rules and dance
+// 3) They wait for your response (for a certain amount of time)
+// 4) You respond
+// 5) They either accept the response and then good music plays and the cycle starts again, or you fail and they take one of your people away from you.
+
+public enum GameStates {
+	SETUP,			// Before any rounds
+	STARTROUND,		// Picks dance, sets up variables for that round of dancing
+	TRIBEDANCE,		// Tribe is dancing
+	PLAYERDANCE,	// Player is trying to match dance
+	ENDROUND,		// Decides what to do with the player's response
+	GAMEOVER,
+	NUM,
+}
+
 // TODO(bret): Before shipping, Window -> Lighting -> Lightmap Tab -> Enable Continuous Baking
 public class GameLoopBehavior : MonoBehaviour {
 
-	// carroters
-
-	// ##### GAME LOOP #####
-	// 1) The Rule Blocks are created
-	// 2) The tribesmen pick one of the rules and dance
-	// 3) They wait for your response (for a certain amount of time)
-	// 4) You respond
-	// 5) They either accept the response and then good music plays and the cycle starts again, or you fail and they take one of your people away from you.
-
-	public enum GameStates {
-		SETUP,			// Before any rounds
-		STARTROUND,		// Picks dance, sets up variables for that round of dancing
-		TRIBEDANCE,		// Tribe is dancing
-		PLAYERDANCE,	// Player is trying to match dance
-		ENDROUND,		// Decides what to do with the player's response
-		GAMEOVER,
-		NUM,
-	}
 	public GameStates CurrentState;
 
 	// Prefabs
-	public GameObject PillarPrefab;
-	public GameObject TribeMemberPrefab;
-	public GameObject ExplorerPrefab;
+	public GameObject SceneObject;
+	public GameObject[] TribeMemberPrefabs;
+	public GameObject[] ExplorerPrefabs;
 
 	// Input handling
 	private List<Vector2> inputQueue = new List<Vector2>();
@@ -68,7 +67,7 @@ public class GameLoopBehavior : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		
+
 	}
 
 	// Called 60 times a second
@@ -106,6 +105,7 @@ public class GameLoopBehavior : MonoBehaviour {
 			case 0: return "";
 			case 1: return "Tribal dance";
 			case 2: return "Explorer dance";
+			case 3: return "Results";
 			default: return "FUCK";
 		}
 	}
@@ -124,6 +124,10 @@ public class GameLoopBehavior : MonoBehaviour {
 			case GameStates.ENDROUND: StartCoroutine(EndRound()); break;
 			case GameStates.GAMEOVER: StartCoroutine(GameOver()); break;
 		}
+
+		new MessageChangeState() {
+			GameState = CurrentState
+		}.Send();
 	}
 
 	private IEnumerator Setup() {
@@ -133,18 +137,31 @@ public class GameLoopBehavior : MonoBehaviour {
 		float circleRadius = 8.0f;
 		float x = 0.0f;
 		float z = 0.0f;
+
+		GameObject characters = new GameObject("Characters");
+		GameObject explorersParent = new GameObject("Explorers");
+		explorersParent.transform.parent = characters.transform;
+		GameObject tribeMembersParent = new GameObject("Tribe Members");
+		tribeMembersParent.transform.parent = characters.transform;
+
+		// TODO(bret): Rework this
 		for (int i = 0; i < 5; ++i) {
 			x = Mathf.Cos(angle * Mathf.Deg2Rad) * circleRadius;
 			z = Mathf.Sin(angle * Mathf.Deg2Rad) * circleRadius;
 
-			GameObject explorer = Instantiate(ExplorerPrefab);
+			GameObject explorer = Instantiate(ExplorerPrefabs[i]);
 			explorer.transform.SetPositionX(x);
 			explorer.transform.SetPositionZ(z);
+			explorer.transform.SetEulerAngleY(180.0f);
 			explorers.Add(explorer);
+			explorer.transform.parent = explorersParent.transform;
 
-			GameObject tribeMember = Instantiate(TribeMemberPrefab);
-			tribeMember.transform.SetPositionX(-x);
-			tribeMember.transform.SetPositionZ(-z);
+			if (i != 0 && i != 4) {
+				GameObject tribeMember = Instantiate(TribeMemberPrefabs[i - 1]);
+				tribeMember.transform.SetPositionX(-x);
+				tribeMember.transform.SetPositionZ(-z);
+				tribeMember.transform.parent = tribeMembersParent.transform;
+			}
 
 			x = Mathf.Cos(angle * Mathf.Deg2Rad) * 10.0f;
 			z = Mathf.Sin(angle * Mathf.Deg2Rad) * 13.0f;
@@ -171,22 +188,21 @@ public class GameLoopBehavior : MonoBehaviour {
 		// Create the pillars
 		DanceManagerBehavior.Reset();
 		PillarBehavior.Reset();
-		float angle = 30.0f;
-		float angleIncrease = 30.0f; // 30 deg, 1/6pi rad
-		float x = 0.0f;
-		float z = 0.0f;
-		for (int i = 0; i < 5; ++i) {
-			x = Mathf.Cos(angle * Mathf.Deg2Rad) * 10.0f;
-			z = Mathf.Sin(angle * Mathf.Deg2Rad) * 13.0f;
 
-			GameObject pillar = Instantiate(PillarPrefab);
-			pillar.transform.SetPositionX(x);
-			pillar.transform.SetPositionZ(z);
-			var pillarBehavior = pillar.GetComponent<PillarBehavior>();
-			pillarBehavior.Create();
-			pillars.Add(pillarBehavior);
+		// Create the Pillars from the Pillars in the scene
+		int id = 0;
+		foreach (Transform child in SceneObject.transform) {
+			if (child.name.StartsWith("Pillar")) {
+				GameObject pillarPrefab = child.gameObject;
 
-			angle += angleIncrease;
+				GameObject pillar = Instantiate(pillarPrefab);
+				pillar.SetActive(true);
+				var pillarBehavior = pillar.GetComponent<PillarBehavior>();
+				pillarBehavior.PillarID = id;
+				pillarBehavior.Create();
+				pillars.Add(pillarBehavior);
+				++id;
+			}
 		}
 
 		// Choose a dance
@@ -261,10 +277,23 @@ public class GameLoopBehavior : MonoBehaviour {
 	}
 
 	private IEnumerator EndRound() {
-		yield return 0;
+		bool inputCorrect = pillarChosen.CheckInput(inputQueue);
+		Music.InputCorrect(inputCorrect);
+
+#if UNITY_EDITOR
+		float total = Music.GetTrackLength(MusicFiles.WIN);
+		for (float elapsed = 0.0f; elapsed < total; elapsed += Time.deltaTime) {
+			progress = 2;
+			progressElapsed = elapsed;
+			progressTotal = total;
+			yield return 0;
+		}
+#else
+		yield return new WaitForSeconds(Music.GetTrackLength(MusicFiles.WIN));
+#endif
 
 		// If the input was correct
-		if (pillarChosen.CheckInput(inputQueue)) {
+		if (inputCorrect) {
 			yield return StartCoroutine(AddToScore());
 		} else {
 			yield return StartCoroutine(KillExplorer()); // :(

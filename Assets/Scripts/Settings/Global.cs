@@ -25,7 +25,7 @@ public static class InputDir {
 }
 
 public enum ListenerType {
-
+	CHANGESTATE,
 	NUM,
 }
 

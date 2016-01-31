@@ -18,6 +18,13 @@ public static class Music {
 		mcb.PlayTracks();
 	}
 
+	public static void InputCorrect(bool correct) {
+		var mcb = GameObject.FindGameObjectWithTag(Tags.MUSICCONTROLLER).GetComponent<MusicControllerBehavior>();
+		Debug.Log("Correct?" + correct.ToString());
+		mcb.AudioSource[2].volume = (correct) ? 1.0f : 0.0f;
+		mcb.AudioSource[3].volume = (!correct) ? 1.0f : 0.0f;
+	}
+
 }
 
 public class MusicControllerBehavior : MonoBehaviour {
@@ -31,6 +38,9 @@ public class MusicControllerBehavior : MonoBehaviour {
 		for (int i = 0; i < Music.Length; ++i) {
 			AudioSource[i] = gameObject.AddComponent<AudioSource>();
 			AudioSource[i].clip = Music[i];
+
+			// TODO(anyone): Remove this for volume
+			//AudioSource[i].volume = 0.0f;
 		}
 
 		//Track = MusicFiles.MENUMUSIC;
@@ -45,10 +55,10 @@ public class MusicControllerBehavior : MonoBehaviour {
 	public void PlayTracks() {
 		float delay = 0.0f;
 		for (int i = 0; i < AudioSource.Length; ++i) {
-			if (i < 2) { // TODO(anyone): Remove this on full game loop is implemented!!!
-				AudioSource[i].PlayDelayed(delay);
+			AudioSource[i].PlayDelayed(delay);
+			// Don't add the delay from the win track (only win or lose can happen)
+			if (i != 2)
 				delay += AudioSource[i].clip.length;
-			}
 		}
 
 		Invoke("PlayTracks", delay);

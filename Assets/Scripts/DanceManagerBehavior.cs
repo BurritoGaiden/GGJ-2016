@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class Dance {
-	public GameObject Icon;
+	public GameObject Icon, IconBroken;
 	// TODO(bret): Animation that should play
 }
 
