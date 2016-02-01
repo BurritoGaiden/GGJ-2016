@@ -17,7 +17,7 @@ public class SmokeGeneratorBehavior : MonoBehaviour {
 
 		private float color {
 			set {
-				float ivalue = value + 0.7f;
+				float ivalue = value + 0.55f;
 				rend.material.color = new Color(ivalue, ivalue, ivalue, value);
 			}
 			get {

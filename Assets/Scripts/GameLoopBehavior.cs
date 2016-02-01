@@ -238,6 +238,8 @@ public class GameLoopBehavior : MonoBehaviour {
 				if (pillarPrefab.GetComponent<PillarBehavior>() == null)
 					continue;
 
+				child.gameObject.SetActive(false);
+
 				GameObject pillar = Instantiate(pillarPrefab);
 				pillar.SetActive(true);
 				var pillarBehavior = pillar.GetComponent<PillarBehavior>();
