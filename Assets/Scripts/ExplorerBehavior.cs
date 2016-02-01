@@ -9,13 +9,18 @@ public class ExplorerBehavior : MonoBehaviour {
 
 	// Use this for initialization
 	void Start() {
-		
+		PlayAnimation("Idle");
 	}
 
 	// Update is called once per frame
 	void Update() {
 		if (dead)
 			MoveTowardsPot();
+	}
+
+	public void PlayAnimation(string anim) {
+		var animator = GetComponent<Animator>();
+		animator.Play(anim);
 	}
 
 	private void MoveTowardsPot() {
@@ -65,6 +70,7 @@ public class ExplorerBehavior : MonoBehaviour {
 		// This doesn't look confusing
 		transform.parent = parent.transform;
 		dead = true;
+		PlayAnimation("Flail");
 		yspeed = 10.0f;
 	}
 

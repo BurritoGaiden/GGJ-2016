@@ -32,6 +32,7 @@ public class GameLoopBehavior : MonoBehaviour {
 
 	// Prefabs
 	public GameObject SceneObject;
+	public GameObject GoldPile;
 	public Something[] TribeMemberPrefabs;
 	public Something[] ExplorerPrefabs;
 
@@ -45,6 +46,7 @@ public class GameLoopBehavior : MonoBehaviour {
 	// Lists of GameObjects
 	private List<PillarBehavior> pillars = new List<PillarBehavior>();
 	private List<GameObject> explorers = new List<GameObject>();
+	private List<GameObject> tribalMembers = new List<GameObject>();
 
 	// Song information
 	private int level = 0;
@@ -61,6 +63,9 @@ public class GameLoopBehavior : MonoBehaviour {
 
 	public AudioClip RumbleSound;
 	private AudioSource rumbleAudioSource;
+
+	public AudioClip CoinsSound;
+	private AudioSource coinsAudioSource;
 
 #if UNITY_ANDROID
 	public float minSwipeDistX;
@@ -89,6 +94,9 @@ public class GameLoopBehavior : MonoBehaviour {
 
 		rumbleAudioSource = gameObject.AddComponent<AudioSource>();
 		rumbleAudioSource.clip = RumbleSound;
+
+		coinsAudioSource = gameObject.AddComponent<AudioSource>();
+		coinsAudioSource.clip = CoinsSound;
 
 #if UNITY_ANDROID
 		float smaller = Mathf.Min(Screen.width, Screen.height);
@@ -195,6 +203,7 @@ public class GameLoopBehavior : MonoBehaviour {
 			GameObject tribeMember = Instantiate(TribeMemberPrefabs[i].Prefab);
 			tribeMember.transform.position = TribeMemberPrefabs[i].Position;
 			tribeMember.transform.parent = tribeMembersParent.transform;
+			tribalMembers.Add(tribeMember);
 		}
 
 		ChangeState(GameStates.STARTROUND);
@@ -253,7 +262,17 @@ public class GameLoopBehavior : MonoBehaviour {
 	}
 
 	private IEnumerator TribeDance() {
+		yield return 0;
+
 		rumbleAudioSource.Play();
+
+		foreach (GameObject explorer in explorers) {
+			explorer.GetComponent<ExplorerBehavior>().PlayAnimation("Idle");
+		}
+
+		foreach (GameObject tribeMember in tribalMembers) {
+			tribeMember.GetComponent<ExplorerBehavior>().PlayAnimation(pillarChosen.Tribal.Dance.AnimationName);
+		}
 
 #if UNITY_EDITOR
 		float total = Music.GetTrackLength(MusicFiles.TRIBAL);
@@ -273,6 +292,10 @@ public class GameLoopBehavior : MonoBehaviour {
 	private IEnumerator PlayerDance() {
 		// Reset the timer
 		inputTimer = Music.GetTrackLength(MusicFiles.EXPLORER);
+
+		foreach (GameObject tribeMember in tribalMembers) {
+			tribeMember.GetComponent<ExplorerBehavior>().PlayAnimation("Idle");
+		}
 
 		while (true) {
 			// Process input
@@ -320,6 +343,10 @@ public class GameLoopBehavior : MonoBehaviour {
 	}
 
 	private IEnumerator EndRound() {
+		foreach (GameObject explorer in explorers) {
+			explorer.GetComponent<ExplorerBehavior>().PlayAnimation(pillarChosen.Explorer.Dance.AnimationName);
+		}
+
 		rumbleAudioSource.PlayDelayed(2.5f);
 
 		bool inputCorrect = pillarChosen.CheckInput(inputQueue);
@@ -350,14 +377,24 @@ public class GameLoopBehavior : MonoBehaviour {
 	}
 
 	private IEnumerator GameOver() {
-		yield return 0;
+		yield return new WaitForSeconds(3.0f);
 
-		Debug.Log("GAME FREAKIN' OVER");
+		Application.Quit();
 	}
 
 	// TODO(anyone): implement
 	private IEnumerator AddToScore() {
-		//yield return new WaitForSeconds(Music.GetTrackLength(MusicFiles.WIN));
+		foreach (GameObject tribeMember in tribalMembers) {
+			tribeMember.GetComponent<ExplorerBehavior>().PlayAnimation(pillarChosen.Tribal.Dance.AnimationName);
+		}
+
+		// Remove the explorer from the List and give them GOLD!
+		var explorer = explorers[explorers.Count - 1];
+		explorers.Remove(explorer);
+		Instantiate(GoldPile, explorer.transform.position, Quaternion.identity);
+		coinsAudioSource.Play();
+
+		yield return new WaitForSeconds(Music.GetTrackLength(MusicFiles.WIN));
 
 		yield return 0;
 	}
