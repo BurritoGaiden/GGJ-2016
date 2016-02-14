@@ -98,22 +98,32 @@ public class GameLoopBehavior : MonoBehaviour {
 		coinsAudioSource = gameObject.AddComponent<AudioSource>();
 		coinsAudioSource.clip = CoinsSound;
 
+#if UNITY_EDITOR
+		Application.runInBackground = true;
+#endif
+
 #if UNITY_ANDROID
 		float smaller = Mathf.Min(Screen.width, Screen.height);
-		minSwipeDistX = minSwipeDistY = smaller * 0.3f;
+		minSwipeDistX = minSwipeDistY = smaller * 0.25f;
 #endif
 	}
 
 	// Update is called once per frame
 	void Update() {
+#if UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.Space)) {
 			new MessageScreenshake() {
 				Amount = 5.0f
 			}.Send();
 		}
 
-		if (Input.GetKeyDown(KeyCode.S))
-			ChangeState(((GameStates)(int)CurrentState + 1));
+		if (Input.GetKeyDown(KeyCode.S)) {
+			int nextState = (int)CurrentState + 1;
+			if (nextState > (int)GameStates.ENDROUND)
+				nextState = (int)GameStates.STARTROUND;
+			ChangeState((GameStates)nextState);
+		}
+#endif
 	}
 
 	// Called 60 times a second
@@ -162,6 +172,16 @@ public class GameLoopBehavior : MonoBehaviour {
 	}
 #endif
 
+#if UNITY_EDITOR
+	private Coroutine previousCoroutine;
+	private Coroutine StartCoroutine(IEnumerator i) {
+		if (previousCoroutine != null)
+			StopCoroutine(previousCoroutine);
+		previousCoroutine = base.StartCoroutine(i);
+		return previousCoroutine;
+	}
+#endif
+
 	// This changes the state! Wow!
 	private void ChangeState(GameStates state) {
 		// Debug.Log(state.ToString() + " started");
@@ -184,6 +204,23 @@ public class GameLoopBehavior : MonoBehaviour {
 	private IEnumerator Setup() {
 		yield return new WaitForSeconds(2.0f);
 
+		// Get the Pillars
+		foreach (Transform child in SceneObject.transform) {
+			if (child.name.StartsWith("Pillar")) {
+				GameObject pillarPrefab = child.gameObject;
+				if (pillarPrefab.GetComponent<PillarBehavior>() == null)
+					continue;
+
+				var pillarBehavior = child.gameObject.GetComponent<PillarBehavior>();
+				pillars.Add(pillarBehavior);
+			}
+		}
+
+		// Call each Pillar's Init method (HAS TO BE SEPARATE, TRUST ME!)
+		for (int i = 0; i < pillars.Count; ++i) {
+			pillars[i].Init(i);
+		}
+
 		// Instantiate dancers
 		GameObject characters = new GameObject("Characters");
 		GameObject explorersParent = new GameObject("Explorers");
@@ -191,6 +228,7 @@ public class GameLoopBehavior : MonoBehaviour {
 		GameObject tribeMembersParent = new GameObject("Tribe Members");
 		tribeMembersParent.transform.parent = characters.transform;
 
+		// Create each Explorer
 		for (int i = 0; i < ExplorerPrefabs.Length; ++i) {
 			GameObject explorer = Instantiate(ExplorerPrefabs[i].Prefab);
 			explorer.transform.position = ExplorerPrefabs[i].Position;
@@ -199,6 +237,7 @@ public class GameLoopBehavior : MonoBehaviour {
 			explorer.transform.parent = explorersParent.transform;
 		}
 
+		// Create each Tribe Member
 		for (int i = 0; i < TribeMemberPrefabs.Length; ++i) {
 			GameObject tribeMember = Instantiate(TribeMemberPrefabs[i].Prefab);
 			tribeMember.transform.position = TribeMemberPrefabs[i].Position;
@@ -208,59 +247,32 @@ public class GameLoopBehavior : MonoBehaviour {
 
 		ChangeState(GameStates.STARTROUND);
 		yield return 0;
-
-		// Play Music
-		if (firstRun) {
-			Settings.Volume = 0.5f;
-			firstRun = false;
-		}
-		Music.PlayTracks();
 	}
 
 	private IEnumerator StartRound() {
-		// NOTE(bret): Perhaps this should only happen every X rounds?
-
-		// Destroy last set of pillars
-		for (int i = 0; i < pillars.Count; ++i) {
-			Destroy(pillars[i].gameObject);
+		// Play Music
+		if (firstRun) {
+#if UNITY_EDITOR
+			Settings.Volume = 0.1f;
+#else
+			Settings.Volume = 0.5f;
+#endif
+			firstRun = false;
 		}
-		pillars.Clear();
+		Music.PlayTracks();
 
 		// Create the pillars
 		DanceManagerBehavior.Reset();
-		PillarBehavior.Reset();
-
-		// Create the Pillars from the Pillars in the scene
-		int id = 0;
-		foreach (Transform child in SceneObject.transform) {
-			if (child.name.StartsWith("Pillar")) {
-				GameObject pillarPrefab = child.gameObject;
-				if (pillarPrefab.GetComponent<PillarBehavior>() == null)
-					continue;
-
-				child.gameObject.SetActive(false);
-
-				GameObject pillar = Instantiate(pillarPrefab);
-				pillar.SetActive(true);
-				var pillarBehavior = pillar.GetComponent<PillarBehavior>();
-				if (pillarBehavior == null)
-					Debug.Log("WHAT THE FUCK");
-				pillarBehavior.PillarID = id;
-				pillarBehavior.Create();
-				pillars.Add(pillarBehavior);
-				++id;
-			}
-		}
+		PillarBehavior.ResetInputs();
 
 		// Choose a dance
 		pillarChosen = pillars[Random.Range(0, pillars.Count)];
 
 		// Create dance input based off correct pillar
 		inputQueue.Clear();
+		yield return 0;
 
 		ChangeState(GameStates.TRIBEDANCE);
-
-		yield return 0;
 	}
 
 	private IEnumerator TribeDance() {
@@ -420,14 +432,14 @@ public class GameLoopBehavior : MonoBehaviour {
 
 			yield return 0;
 		}
-		
+
 		// Shoot
 		var explorer = explorers[explorers.Count - 1];
 		explorers.Remove(explorer);
 		explorer.GetComponent<ExplorerBehavior>().Die();
 
 		new MessageScreenshake() {
-			Amount = 5.0f
+			Amount = 8.0f
 		}.Send();
 
 		laserLineRenderer.SetPosition(1, explorer.transform.position);
@@ -439,7 +451,7 @@ public class GameLoopBehavior : MonoBehaviour {
 		laserLineRenderer.enabled = false;
 
 		yield return 0;
-		
+
 
 		// Wait
 		for (; timeLeft > 0; timeLeft -= Time.deltaTime) {

@@ -2,6 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
+// TODO(bret): Implement
+[System.Serializable]
+public class DancePair {
+	public Dance Dance1, Dance2;
+}
+
 [System.Serializable]
 public class Dance {
 	public GameObject Icon, IconBroken;

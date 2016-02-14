@@ -34,6 +34,7 @@ public class TreetopSway : MonoBehaviour {
 
 	public void _Screenshake(MessageScreenshake msg) {
 		screenshakeAmount = Random.Range(msg.Amount * 0.9f, msg.Amount * 1.1f);
+		//screenshakeAmount = msg.Amount;
 	}
 
 }
